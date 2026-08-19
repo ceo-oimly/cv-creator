@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CV CRAFT - Build Job-Winning CVs in Minutes</title>
+  <meta name="description"
+    content="Create ATS-friendly professional resumes online for free. Choose from modern templates, customize live, and download as high quality PDF or Word DOCX.">
+
+  <!-- Inter Font & App Stylesheet -->
+  <link rel="stylesheet" href="cv_craft.css">
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- html2pdf.js CDN for PDF export -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+</head>
+
+<body>
+
+  <!-- APP HEADER -->
+  <header class="app-header">
+    <div class="header-container">
+      <div class="brand-logo" data-target-view="homepage">
+        <div class="brand-icon"><i data-lucide="file-text"></i></div>
+        <span>CV CRAFT</span>
+        <span class="brand-badge">PRO</span>
+      </div>
+
+      <button class="mobile-nav-toggle" id="mobile-nav-toggle" aria-label="Toggle Mobile Navigation">
+        <i data-lucide="menu"></i>
+      </button>
+
+      <nav class="nav-menu" id="nav-menu">
+        <ul class="nav-links">
+          <li><a href="#" class="nav-link active" data-target-view="homepage">Home</a></li>
+          <li><a href="#templates" class="nav-link" data-target-view="homepage">Templates</a></li>
+          <li><a href="#" class="nav-link" data-target-view="dashboard">My CVs</a></li>
+          <li><button class="btn btn-primary" data-target-view="editor"><i data-lucide="sparkles"></i> Create My CV
+              Free</button></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ==================== PAGE 1: HOMEPAGE VIEW ==================== -->
+  <main id="view-homepage" class="view-section active">
+    <!-- HERO SECTION -->
+    <section class="hero-section">
+      <div class="hero-pill">
+        <i data-lucide="zap"></i> Fast & ATS-Optimized Resume Creator
+      </div>
+      <h1 class="hero-title">Build a Job-Winning CV in <span>5 Minutes</span></h1>
+      <p class="hero-subtitle">Create professional, polished resumes that stand out to hiring managers. Instant live
+        preview, customizable templates, and one-click PDF & DOCX export.</p>
+
+      <div class="hero-ctas">
+        <button class="btn btn-primary btn-lg" data-target-view="editor"><i data-lucide="file-plus"></i> Create My CV
+          Free</button>
+        <button class="btn btn-outline btn-lg" data-target-view="dashboard"><i data-lucide="layout"></i> View Saved
+          Resumes</button>
+      </div>
+
+      <div class="hero-badges">
+        <div class="hero-badge-item"><i data-lucide="check-circle" style="color:var(--success)"></i> 100% Free & No
+          Registration</div>
+        <div class="hero-badge-item"><i data-lucide="check-circle" style="color:var(--success)"></i> ATS-Friendly
+          Templates</div>
+        <div class="hero-badge-item"><i data-lucide="check-circle" style="color:var(--success)"></i> Instant PDF & Word
+          Export</div>
+      </div>
+    </section>
+
+    <!-- TEMPLATES SHOWCASE -->
+    <section id="templates" class="templates-showcase">
+      <div class="section-header">
+        <h2 class="section-title">Choose a Modern Template</h2>
+        <p class="section-desc">Pick from 6 professionally crafted layouts designed for tech, creative, corporate, and
+          student roles.</p>
+      </div>
+
+      <div class="templates-grid">
+        <!-- Template 1: Minimal -->
+        <div class="template-card">
+          <div class="template-preview-box">
+            <div class="mini-preview" style="border-top:3px solid #2563eb;">
+              <div style="font-weight:700; font-size:10px;">ALEX MORGAN</div>
+              <div style="color:#2563eb; font-size:7px; margin-bottom:6px;">Minimalist & Clean</div>
+              <div style="height:3px; background:#e2e8f0; margin:4px 0;"></div>
+              <div style="height:3px; background:#e2e8f0; width:80%; margin:2px 0;"></div>
+              <div style="height:3px; background:#e2e8f0; width:60%; margin:2px 0;"></div>
+            </div>
+          </div>
+          <div class="template-card-info">
+            <div>
+              <div class="template-card-name">Minimal</div>
+              <div class="template-card-tag">Clean & Versatile</div>
+            </div>
+            <button class="btn btn-outline btn-sm template-card-btn" data-template="minimal">Use Template</button>
+          </div>
+        </div>
+
+        <!-- Template 2: Professional -->
+        <div class="template-card">
+          <div class="template-preview-box">
+            <div class="mini-preview" style="display:flex; padding:0;">
+              <div style="width:35%; background:#1e293b; color:#fff; padding:6px;">
+                <div style="width:18px; height:18px; border-radius:50%; background:#2563eb; margin-bottom:4px;"></div>
+                <div style="height:2px; background:#475569; margin:2px 0;"></div>
+              </div>
+              <div style="width:65%; padding:6px;">
+                <div style="font-weight:700; font-size:9px;">PROFESSIONAL</div>
+                <div style="height:2px; background:#e2e8f0; margin:3px 0;"></div>
+              </div>
+            </div>
+          </div>
+          <div class="template-card-info">
+            <div>
+              <div class="template-card-name">Professional</div>
+              <div class="template-card-tag">2-Column Corporate</div>
+            </div>
+            <button class="btn btn-outline btn-sm template-card-btn" data-template="professional">Use Template</button>
+          </div>
+        </div>
+
+        <!-- Template 3: Creative -->
+        <div class="template-card">
+          <div class="template-preview-box">
+            <div class="mini-preview" style="padding:0;">
+              <div style="background:#2563eb; color:#fff; padding:8px;">
+                <div style="font-weight:700; font-size:10px;">CREATIVE HEADER</div>
+              </div>
+              <div style="padding:8px;">
+                <div style="border-left:2px solid #2563eb; padding-left:4px; margin-top:4px;">
+                  <div style="font-size:7px; font-weight:600;">Modern Timeline</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="template-card-info">
+            <div>
+              <div class="template-card-name">Creative</div>
+              <div class="template-card-tag">Modern & High Impact</div>
+            </div>
+            <button class="btn btn-outline btn-sm template-card-btn" data-template="creative">Use Template</button>
+          </div>
+        </div>
+
+        <!-- Template 4: Tech -->
+        <div class="template-card">
+          <div class="template-preview-box">
+            <div class="mini-preview" style="font-family:monospace; background:#fff;">
+              <div style="color:#2563eb; font-weight:700;">> TECH_STACK.md</div>
+              <div style="background:#f8fafc; border:1px solid #cbd5e1; padding:4px; margin-top:4px;">
+                Developer Centric Layout
+              </div>
+            </div>
+          </div>
+          <div class="template-card-info">
+            <div>
+              <div class="template-card-name">Tech</div>
+              <div class="template-card-tag">Software & IT Focus</div>
+            </div>
+            <button class="btn btn-outline btn-sm template-card-btn" data-template="tech">Use Template</button>
+          </div>
+        </div>
+
+        <!-- Template 5: Student -->
+        <div class="template-card">
+          <div class="template-preview-box">
+            <div class="mini-preview" style="text-align:center;">
+              <div style="font-weight:700; color:#2563eb;">STUDENT / GRAD</div>
+              <div style="background:#f1f5f9; padding:2px; margin:4px 0; border-left:2px solid #2563eb;">Education First
+              </div>
+            </div>
+          </div>
+          <div class="template-card-info">
+            <div>
+              <div class="template-card-name">Student</div>
+              <div class="template-card-tag">Academic & Entry Level</div>
+            </div>
+            <button class="btn btn-outline btn-sm template-card-btn" data-template="student">Use Template</button>
+          </div>
+        </div>
+
+        <!-- Template 6: Executive -->
+        <div class="template-card">
+          <div class="template-preview-box">
+            <div class="mini-preview" style="font-family:serif; text-align:center;">
+              <div style="font-size:10px; font-weight:700;">EXECUTIVE LEADERSHIP</div>
+              <div style="border-top:1px solid #000; border-bottom:1px solid #000; height:2px; margin:4px 0;"></div>
+            </div>
+          </div>
+          <div class="template-card-info">
+            <div>
+              <div class="template-card-name">Executive</div>
+              <div class="template-card-tag">Formal & Senior Roles</div>
+            </div>
+            <button class="btn btn-outline btn-sm template-card-btn" data-template="executive">Use Template</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FEATURES GRID -->
+    <section class="features-section">
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon"><i data-lucide="cpu"></i></div>
+          <h3 class="feature-title">Real-Time Live Preview</h3>
+          <p class="feature-desc">See your updates instantly as you type into the editor form. What you see is exactly
+            what you get on the exported PDF.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon"><i data-lucide="shield-check"></i></div>
+          <h3 class="feature-title">100% Data Privacy</h3>
+          <p class="feature-desc">Your CV data stays saved securely in your browser's local storage. No forced account
+            creation required.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon"><i data-lucide="download"></i></div>
+          <h3 class="feature-title">Multiple Export Options</h3>
+          <p class="feature-desc">Download crisp pixel-perfect PDFs formatted to standard A4, or export as Word .docx to
+            edit anywhere.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon"><i data-lucide="share-2"></i></div>
+          <h3 class="feature-title">Shareable Link</h3>
+          <p class="feature-desc">Generate an encoded share link to send your interactive resume preview directly to
+            recruiters or friends.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ==================== PAGE 2: DASHBOARD VIEW ==================== -->
+  <main id="view-dashboard" class="view-section">
+    <div class="dashboard-container">
+      <div class="dashboard-header">
+        <div>
+          <h1 style="font-size:1.75rem; font-weight:800;">My Saved Resumes</h1>
+          <p style="color:var(--text-muted); font-size:0.9375rem;">Manage and edit your saved CV drafts</p>
+        </div>
+        <button class="btn btn-primary" onclick="createNewCv()"><i data-lucide="plus"></i> Create New CV</button>
+      </div>
+
+      <div class="cv-cards-grid" id="saved-cvs-grid">
+        <!-- Rendered dynamically by JS -->
+      </div>
+    </div>
+  </main>
+
+  <!-- ==================== PAGE 3: CV EDITOR VIEW (2 PANEL) ==================== -->
+  <main id="view-editor" class="view-section">
+    <div class="editor-layout">
+
+      <!-- TOP TOOLBAR -->
+      <div class="editor-toolbar">
+        <div class="toolbar-left">
+          <button class="btn btn-outline btn-sm" data-target-view="dashboard"><i data-lucide="arrow-left"></i>
+            Dashboard</button>
+          <input type="text" id="doc-title" class="doc-title-input" value="Senior Software Engineer CV">
+          <div id="save-status" class="save-status">
+            <span class="status-dot"></span> Saved to browser
+          </div>
+        </div>
+
+        <div class="toolbar-center">
+          <!-- Template Selector -->
+          <div class="toolbar-group">
+            <span class="tool-label">Template:</span>
+            <select id="template-select" class="select-sm">
+              <option value="minimal">Minimal</option>
+              <option value="professional" selected>Professional</option>
+              <option value="creative">Creative</option>
+              <option value="tech">Tech</option>
+              <option value="student">Student</option>
+              <option value="executive">Executive</option>
+            </select>
+          </div>
+
+          <!-- Color Swatches -->
+          <div class="toolbar-group">
+            <span class="tool-label">Theme:</span>
+            <div class="color-swatches">
+              <div class="color-swatch active" style="background:#2563eb;" data-color="#2563eb" title="Royal Blue">
+              </div>
+              <div class="color-swatch" style="background:#059669;" data-color="#059669" title="Emerald"></div>
+              <div class="color-swatch" style="background:#4f46e5;" data-color="#4f46e5" title="Indigo"></div>
+              <div class="color-swatch" style="background:#334155;" data-color="#334155" title="Slate"></div>
+              <div class="color-swatch" style="background:#dc2626;" data-color="#dc2626" title="Crimson"></div>
+              <div class="color-swatch" style="background:#d97706;" data-color="#d97706" title="Amber"></div>
+            </div>
+          </div>
+
+          <!-- Font Selector -->
+          <div class="toolbar-group">
+            <span class="tool-label">Font:</span>
+            <select id="font-select" class="select-sm">
+              <option value="'Inter', sans-serif">Inter (Sans)</option>
+              <option value="'Merriweather', serif">Merriweather (Serif)</option>
+              <option value="'Fira Code', monospace">Fira Code (Mono)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="toolbar-right">
+          <button id="btn-load-sample" class="btn btn-subtle btn-sm" title="Pre-fill sample content"><i
+              data-lucide="sparkles"></i> Load Sample</button>
+          <button id="btn-clear-data" class="btn btn-outline btn-sm" title="Clear all fields"><i
+              data-lucide="rotate-ccw"></i> Clear</button>
+          <button id="btn-share-link" class="btn btn-outline btn-sm"><i data-lucide="share-2"></i> Share</button>
+          <button id="btn-export-docx" class="btn btn-outline btn-sm"><i data-lucide="file-text"></i> .DOCX</button>
+          <button id="btn-export-pdf" class="btn btn-primary btn-sm"><i data-lucide="download"></i> Download
+            PDF</button>
+        </div>
+      </div>
+
+      <!-- MAIN SPLIT PANEL CONTAINER -->
+      <div class="editor-main">
+
+        <!-- LEFT PANEL: FORM STEPPER & TABS -->
+        <div class="form-panel">
+
+          <!-- Section Tabs -->
+          <div class="form-tabs">
+            <button class="tab-btn active" data-tab="personal"><i data-lucide="user"></i> Personal</button>
+            <button class="tab-btn" data-tab="summary"><i data-lucide="file-text"></i> Summary</button>
+            <button class="tab-btn" data-tab="experience"><i data-lucide="briefcase"></i> Experience</button>
+            <button class="tab-btn" data-tab="education"><i data-lucide="graduation-cap"></i> Education</button>
+            <button class="tab-btn" data-tab="skills"><i data-lucide="wrench"></i> Skills</button>
+            <button class="tab-btn" data-tab="projects"><i data-lucide="folder-git-2"></i> Projects</button>
+            <button class="tab-btn" data-tab="certifications"><i data-lucide="award"></i> Certs</button>
+          </div>
+
+          <!-- Form Scroll Area -->
+          <div class="form-scroll-area">
+
+            <!-- 1. PERSONAL INFO SECTION -->
+            <div id="sec-personal" class="form-section active">
+              <h2 class="form-section-title">Personal Details</h2>
+              <p class="form-section-desc">How employers can contact you.</p>
+
+              <div class="form-group col-span-2" style="margin-bottom:1.25rem;">
+                <label class="form-label">Profile Photo (Optional)</label>
+                <div class="photo-upload-box">
+                  <div class="photo-preview">
+                    <img id="photo-preview-img" src="" style="display:none;" alt="Preview">
+                  </div>
+                  <div>
+                    <input type="file" id="input-photo" accept="image/*" style="display:none;">
+                    <button class="btn btn-outline btn-sm" onclick="document.getElementById('input-photo').click()"><i
+                        data-lucide="upload"></i> Upload Image</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-grid">
+                <div class="form-group">
+                  <label class="form-label">Full Name *</label>
+                  <input type="text" id="input-fullname" class="form-control personal-input" data-field="fullName"
+                    placeholder="e.g. Alex Morgan">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Job Title *</label>
+                  <input type="text" id="input-jobtitle" class="form-control personal-input" data-field="jobTitle"
+                    placeholder="e.g. Senior Full Stack Engineer">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Email Address *</label>
+                  <input type="email" id="input-email" class="form-control personal-input" data-field="email"
+                    placeholder="alex.morgan@example.com">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Phone Number</label>
+                  <input type="text" id="input-phone" class="form-control personal-input" data-field="phone"
+                    placeholder="+1 (555) 234-5678">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Location (City, Country)</label>
+                  <input type="text" id="input-location" class="form-control personal-input" data-field="location"
+                    placeholder="San Francisco, CA">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Website / Portfolio</label>
+                  <input type="text" id="input-website" class="form-control personal-input" data-field="website"
+                    placeholder="alexmorgan.dev">
+                </div>
+                <div class="form-group col-span-2">
+                  <label class="form-label">LinkedIn Profile URL</label>
+                  <input type="text" id="input-linkedin" class="form-control personal-input" data-field="linkedin"
+                    placeholder="linkedin.com/in/alexmorgan">
+                </div>
+              </div>
+            </div>
+
+            <!-- 2. SUMMARY SECTION -->
+            <div id="sec-summary" class="form-section">
+              <h2 class="form-section-title">Professional Summary</h2>
+              <p class="form-section-desc">Write a short 2-4 sentence introduction highlighting your top career
+                achievements and goals.</p>
+
+              <div class="form-group">
+                <textarea id="input-summary" class="form-control" style="min-height:160px;"
+                  placeholder="Results-driven Senior Software Engineer with 7+ years of experience building scalable applications..."></textarea>
+              </div>
+            </div>
+
+            <!-- 3. EXPERIENCE SECTION -->
+            <div id="sec-experience" class="form-section">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+                <div>
+                  <h2 class="form-section-title">Work Experience</h2>
+                  <p class="form-section-desc">List your relevant past job roles.</p>
+                </div>
+                <button class="btn btn-subtle btn-sm" onclick="addExperience()"><i data-lucide="plus"></i> Add
+                  Job</button>
+              </div>
+
+              <div id="exp-list-container">
+                <!-- Rendered dynamically -->
+              </div>
+            </div>
+
+            <!-- 4. EDUCATION SECTION -->
+            <div id="sec-education" class="form-section">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+                <div>
+                  <h2 class="form-section-title">Education</h2>
+                  <p class="form-section-desc">Degrees, certifications, and academic history.</p>
+                </div>
+                <button class="btn btn-subtle btn-sm" onclick="addEducation()"><i data-lucide="plus"></i> Add
+                  Education</button>
+              </div>
+
+              <div id="edu-list-container">
+                <!-- Rendered dynamically -->
+              </div>
+            </div>
+
+            <!-- 5. SKILLS SECTION -->
+            <div id="sec-skills" class="form-section">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+                <div>
+                  <h2 class="form-section-title">Skills & Technologies</h2>
+                  <p class="form-section-desc">Add technical and soft skills.</p>
+                </div>
+                <button class="btn btn-subtle btn-sm" onclick="addSkill()"><i data-lucide="plus"></i> Add Skill</button>
+              </div>
+
+              <div id="skills-list-container">
+                <!-- Rendered dynamically -->
+              </div>
+            </div>
+
+            <!-- 6. PROJECTS SECTION -->
+            <div id="sec-projects" class="form-section">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+                <div>
+                  <h2 class="form-section-title">Projects</h2>
+                  <p class="form-section-desc">Highlight open-source or personal projects.</p>
+                </div>
+                <button class="btn btn-subtle btn-sm" onclick="addProject()"><i data-lucide="plus"></i> Add
+                  Project</button>
+              </div>
+
+              <div id="projects-list-container">
+                <!-- Rendered dynamically -->
+              </div>
+            </div>
+
+            <!-- 7. CERTIFICATIONS SECTION -->
+            <div id="sec-certifications" class="form-section">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+                <div>
+                  <h2 class="form-section-title">Certifications</h2>
+                  <p class="form-section-desc">Industry credentials and courses.</p>
+                </div>
+                <button class="btn btn-subtle btn-sm" onclick="addCertification()"><i data-lucide="plus"></i> Add
+                  Certification</button>
+              </div>
+
+              <div id="cert-list-container">
+                <!-- Rendered dynamically -->
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- RIGHT PANEL: LIVE PREVIEW -->
+        <div class="preview-panel">
+          <div class="preview-toolbar">
+            <div
+              style="font-size:0.8125rem; font-weight:700; color:var(--text-dark); display:flex; align-items:center; gap:0.375rem;">
+              <i data-lucide="eye" style="width:16px; height:16px; color:var(--primary);"></i> Live A4 Print Preview
+            </div>
+
+            <div class="zoom-controls">
+              <button class="btn-icon" id="zoom-out" title="Zoom Out"><i data-lucide="zoom-out"></i></button>
+              <span class="zoom-val" id="zoom-value">100%</span>
+              <button class="btn-icon" id="zoom-in" title="Zoom In"><i data-lucide="zoom-in"></i></button>
+              <button class="btn-icon" id="zoom-reset" title="Reset Zoom"><i data-lucide="maximize-2"></i></button>
+            </div>
+          </div>
+
+          <div class="preview-scroll-wrapper">
+            <div class="paper-scaler" id="paper-scaler">
+              <!-- A4 PAPER CANVAS -->
+              <div id="cv-paper" class="cv-paper template-professional">
+                <!-- Rendered live via JS -->
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- MOBILE TOGGLE BAR -->
+  <div class="mobile-toggle-bar">
+    <button class="mobile-toggle-btn active" id="btn-mobile-form">📝 Form</button>
+    <button class="mobile-toggle-btn" id="btn-mobile-preview">👁️ Preview</button>
+  </div>
+
+  <!-- SHARE LINK MODAL -->
+  <div class="modal-backdrop" id="share-modal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 class="modal-title">Share Your Resume</h3>
+        <button class="modal-close" onclick="closeModal('share-modal')">×</button>
+      </div>
+      <p style="font-size:0.875rem; color:var(--text-muted); margin-bottom:1rem;">
+        Anyone with this link will be able to view your resume preview directly in their browser.
+      </p>
+      <div style="display:flex; gap:0.5rem; margin-bottom:1.5rem;">
+        <input type="text" id="share-url-input" class="form-control" readonly>
+        <button class="btn btn-primary" onclick="copyShareUrl()"><i data-lucide="copy"></i> Copy</button>
+      </div>
+      <div style="display:flex; justify-content:flex-end;">
+        <button class="btn btn-outline" onclick="closeModal('share-modal')">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main JavaScript Engine -->
+  <script src="cv_craft.js"></script>
+</body>
+
+</html>
