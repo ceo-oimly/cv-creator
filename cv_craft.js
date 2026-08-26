@@ -1324,6 +1324,7 @@ function exportPDF() {
 
   const rawName = state.currentCv?.personal?.fullName || '';
   const name = rawName.trim() || 'User';
+  const filename = `CV-${name}.pdf`;
 
   showToast('Generating crisp PDF...');
 
@@ -1333,7 +1334,21 @@ function exportPDF() {
   if (scaler) scaler.style.transform = 'scale(1)';
 
   const jsPDFLib = window.jspdf ? window.jspdf.jsPDF : (window.jsPDF || null);
-  const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+  // Helper function to force download using temporary <a> tag with download attribute
+  const downloadBlob = (blob) => {
+    const blobUrl = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = blobUrl;
+    link.download = filename;
+    link.style.display = 'none';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    setTimeout(() => {
+      URL.revokeObjectURL(blobUrl);
+    }, 2000);
+  };
 
   if (jsPDFLib && typeof html2canvas !== 'undefined') {
     html2canvas(element, {
@@ -1354,13 +1369,12 @@ function exportPDF() {
 
       pdf.addImage(imgData, 'JPEG', 0, 0, pdfWidth, pdfHeight);
 
-      // Mobile fix: pdf.save(`CV-${name}.pdf`) triggers download prompt on iOS/Android
-      pdf.save(`CV-${name}.pdf`);
+      // Convert PDF to Blob and trigger direct download via temporary <a> link with download attribute
+      const pdfBlob = pdf.output('blob');
+      downloadBlob(pdfBlob);
 
       if (scaler) scaler.style.transform = prevTransform;
-      showToast(isMobile 
-        ? `CV-${name}.pdf saved! Check your Downloads/Files app.` 
-        : `CV-${name}.pdf downloaded successfully!`);
+      showToast(`${filename} downloaded successfully!`);
     }).catch(err => {
       console.error('PDF generation error:', err);
       if (scaler) scaler.style.transform = prevTransform;
@@ -1370,14 +1384,16 @@ function exportPDF() {
   } else if (window.html2pdf) {
     const opt = {
       margin: 0,
-      filename: `CV-${name}.pdf`,
+      filename: filename,
       image: { type: 'jpeg', quality: 0.98 },
       html2canvas: { scale: 2, useCORS: true },
       jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
     };
-    window.html2pdf().set(opt).from(element).save(`CV-${name}.pdf`).then(() => {
+    window.html2pdf().set(opt).from(element).toPdf().get('pdf').then((pdf) => {
+      const pdfBlob = pdf.output('blob');
+      downloadBlob(pdfBlob);
       if (scaler) scaler.style.transform = prevTransform;
-      showToast(`CV-${name}.pdf downloaded!`);
+      showToast(`${filename} downloaded!`);
     }).catch(err => {
       console.error(err);
       if (scaler) scaler.style.transform = prevTransform;
