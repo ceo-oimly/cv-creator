@@ -143,7 +143,14 @@ function initStorage() {
   const currentDraft = localStorage.getItem('cv_craft_current_draft');
   if (currentDraft) {
     try {
-      state.currentCv = JSON.parse(currentDraft);
+      const parsed = JSON.parse(currentDraft);
+      // Reset to empty form if draft is old sample data
+      if (parsed.id === 'sample-cv-1' || parsed.personal?.fullName === 'Alex Morgan' || parsed.personal?.phone === '+1 (555) 234-5678') {
+        state.currentCv = JSON.parse(JSON.stringify(EMPTY_CV_DATA));
+        saveToLocalStorage();
+      } else {
+        state.currentCv = parsed;
+      }
     } catch (e) {
       state.currentCv = JSON.parse(JSON.stringify(EMPTY_CV_DATA));
     }
@@ -509,11 +516,11 @@ function renderExperienceList() {
       <div class="form-grid">
         <div class="form-group">
           <label class="form-label">Job Title</label>
-          <input type="text" class="form-control" value="${exp.jobTitle || ''}" oninput="updateExpField('${exp.id}', 'jobTitle', this.value)">
+          <input type="text" class="form-control" placeholder="e.g. Senior Full Stack Engineer" value="${exp.jobTitle || ''}" oninput="updateExpField('${exp.id}', 'jobTitle', this.value)">
         </div>
         <div class="form-group">
           <label class="form-label">Company</label>
-          <input type="text" class="form-control" value="${exp.company || ''}" oninput="updateExpField('${exp.id}', 'company', this.value)">
+          <input type="text" class="form-control" placeholder="e.g. TechFlow Solutions" value="${exp.company || ''}" oninput="updateExpField('${exp.id}', 'company', this.value)">
         </div>
         <div class="form-group">
           <label class="form-label">Start Date</label>
@@ -585,19 +592,19 @@ function renderEducationList() {
       <div class="form-grid">
         <div class="form-group">
           <label class="form-label">Degree / Field of Study</label>
-          <input type="text" class="form-control" value="${edu.degree || ''}" oninput="updateEduField('${edu.id}', 'degree', this.value)">
+          <input type="text" class="form-control" placeholder="e.g. B.S. in Computer Science" value="${edu.degree || ''}" oninput="updateEduField('${edu.id}', 'degree', this.value)">
         </div>
         <div class="form-group">
           <label class="form-label">School / University</label>
-          <input type="text" class="form-control" value="${edu.school || ''}" oninput="updateEduField('${edu.id}', 'school', this.value)">
+          <input type="text" class="form-control" placeholder="e.g. University of California, Berkeley" value="${edu.school || ''}" oninput="updateEduField('${edu.id}', 'school', this.value)">
         </div>
         <div class="form-group">
           <label class="form-label">Start Date</label>
-          <input type="text" class="form-control" value="${edu.startDate || ''}" oninput="updateEduField('${edu.id}', 'startDate', this.value)">
+          <input type="text" class="form-control" placeholder="e.g. Sep 2015" value="${edu.startDate || ''}" oninput="updateEduField('${edu.id}', 'startDate', this.value)">
         </div>
         <div class="form-group">
           <label class="form-label">End Date</label>
-          <input type="text" class="form-control" value="${edu.endDate || ''}" oninput="updateEduField('${edu.id}', 'endDate', this.value)">
+          <input type="text" class="form-control" placeholder="e.g. May 2019" value="${edu.endDate || ''}" oninput="updateEduField('${edu.id}', 'endDate', this.value)">
         </div>
       </div>
     `;
@@ -697,7 +704,7 @@ function renderProjectsList() {
       <div class="form-grid">
         <div class="form-group">
           <label class="form-label">Project Title</label>
-          <input type="text" class="form-control" value="${p.title || ''}" oninput="updateProject('${p.id}', 'title', this.value)">
+          <input type="text" class="form-control" placeholder="e.g. DevMetrics - Analytics Platform" value="${p.title || ''}" oninput="updateProject('${p.id}', 'title', this.value)">
         </div>
         <div class="form-group">
           <label class="form-label">Tools / Tech Stack</label>
@@ -705,7 +712,7 @@ function renderProjectsList() {
         </div>
         <div class="form-group col-span-2">
           <label class="form-label">Description & Achievements</label>
-          <textarea class="form-control" oninput="updateProject('${p.id}', 'description', this.value)">${p.description || ''}</textarea>
+          <textarea class="form-control" placeholder="Open-source developer performance dashboard with over 2.4k GitHub stars." oninput="updateProject('${p.id}', 'description', this.value)">${p.description || ''}</textarea>
         </div>
       </div>
     `;
