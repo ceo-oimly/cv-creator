@@ -1,6 +1,33 @@
 /* CV CRAFT - Core Application JavaScript */
 
-// Sample pre-filled data for instant user wow-factor
+// Empty template structure for fresh user input (shows placeholders)
+const EMPTY_CV_DATA = {
+  id: 'cv-1',
+  title: '',
+  updatedAt: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
+  template: 'professional',
+  colorTheme: '#2563eb',
+  fontFamily: "'Inter', sans-serif",
+  personal: {
+    fullName: '',
+    jobTitle: '',
+    email: '',
+    phone: '',
+    location: '',
+    website: '',
+    linkedin: '',
+    photo: ''
+  },
+  summary: '',
+  experience: [],
+  education: [],
+  skills: [],
+  projects: [],
+  certifications: [],
+  languages: []
+};
+
+// Sample pre-filled data for "Load Sample" button
 const SAMPLE_CV_DATA = {
   id: 'sample-cv-1',
   title: 'Senior Software Engineer CV',
@@ -81,7 +108,7 @@ const SAMPLE_CV_DATA = {
 
 // Global App State
 let state = {
-  currentCv: JSON.parse(JSON.stringify(SAMPLE_CV_DATA)),
+  currentCv: JSON.parse(JSON.stringify(EMPTY_CV_DATA)),
   savedCvs: [],
   currentTab: 'personal',
   zoomLevel: 100,
@@ -106,10 +133,10 @@ function initStorage() {
     try {
       state.savedCvs = JSON.parse(localSaved);
     } catch (e) {
-      state.savedCvs = [SAMPLE_CV_DATA];
+      state.savedCvs = [];
     }
   } else {
-    state.savedCvs = [SAMPLE_CV_DATA];
+    state.savedCvs = [];
     saveToLocalStorage();
   }
 
@@ -117,7 +144,11 @@ function initStorage() {
   if (currentDraft) {
     try {
       state.currentCv = JSON.parse(currentDraft);
-    } catch (e) { }
+    } catch (e) {
+      state.currentCv = JSON.parse(JSON.stringify(EMPTY_CV_DATA));
+    }
+  } else {
+    state.currentCv = JSON.parse(JSON.stringify(EMPTY_CV_DATA));
   }
 }
 
@@ -511,7 +542,7 @@ function addExperience() {
     jobTitle: '',
     company: '',
     startDate: '',
-    endDate: 'Present',
+    endDate: '',
     description: ''
   });
   renderExperienceList();
@@ -754,7 +785,7 @@ function removeCert(id) {
 
 /* ==================== TEMPLATE LIVE PREVIEW ENGINE ==================== */
 function updateLivePreview() {
-  const paper = document.getElementById('cv-paper');
+  const paper = document.getElementById('cv-preview') || document.getElementById('cv-paper');
   if (!paper) return;
 
   const cv = state.currentCv;
@@ -1229,9 +1260,9 @@ function renderSavedCvsDashboard() {
 }
 
 function createNewCv() {
-  const newCv = JSON.parse(JSON.stringify(SAMPLE_CV_DATA));
+  const newCv = JSON.parse(JSON.stringify(EMPTY_CV_DATA));
   newCv.id = 'cv-' + Date.now();
-  newCv.title = 'My New CV';
+  newCv.title = '';
   newCv.updatedAt = new Date().toLocaleDateString('en-US');
 
   state.savedCvs.unshift(newCv);
@@ -1281,41 +1312,83 @@ function deleteCv(id) {
 
 // 1. PDF Export
 function exportPDF() {
-  const paper = document.getElementById('cv-paper');
-  if (!paper) return;
+  const element = document.getElementById('cv-preview') || document.getElementById('cv-paper');
+  if (!element) return;
+
+  const rawName = state.currentCv?.personal?.fullName || '';
+  const name = rawName.trim() || 'User';
 
   showToast('Generating crisp PDF...');
 
-  // Reset zoom scale temporarily for accurate html2pdf render
+  // Reset zoom scale temporarily for accurate html2canvas render
   const scaler = document.getElementById('paper-scaler');
   const prevTransform = scaler ? scaler.style.transform : '';
   if (scaler) scaler.style.transform = 'scale(1)';
 
-  const opt = {
-    margin: 0,
-    filename: `${(state.currentCv.personal?.fullName || 'CV').replace(/\s+/g, '_')}_Resume.pdf`,
-    image: { type: 'jpeg', quality: 0.98 },
-    html2canvas: { scale: 2, useCORS: true, letterRendering: true },
-    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-  };
+  const jsPDFLib = window.jspdf ? window.jspdf.jsPDF : (window.jsPDF || null);
+  const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
-  if (window.html2pdf) {
-    html2pdf().set(opt).from(paper).save().then(() => {
+  if (jsPDFLib && typeof html2canvas !== 'undefined') {
+    html2canvas(element, {
+      scale: 2,
+      useCORS: true,
+      logging: false,
+      windowWidth: 794
+    }).then(canvas => {
+      const imgData = canvas.toDataURL('image/jpeg', 0.98);
+      const pdf = new jsPDFLib({
+        orientation: 'portrait',
+        unit: 'mm',
+        format: 'a4'
+      });
+
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = pdf.internal.pageSize.getHeight();
+
+      pdf.addImage(imgData, 'JPEG', 0, 0, pdfWidth, pdfHeight);
+
+      // Mobile fix: pdf.save(`CV-${name}.pdf`) triggers download prompt on iOS/Android
+      pdf.save(`CV-${name}.pdf`);
+
       if (scaler) scaler.style.transform = prevTransform;
-      showToast('PDF downloaded successfully!');
+      showToast(isMobile 
+        ? `CV-${name}.pdf saved! Check your Downloads/Files app.` 
+        : `CV-${name}.pdf downloaded successfully!`);
+    }).catch(err => {
+      console.error('PDF generation error:', err);
+      if (scaler) scaler.style.transform = prevTransform;
+      showToast('Error generating PDF. Opening print dialog...');
+      window.print();
+    });
+  } else if (window.html2pdf) {
+    const opt = {
+      margin: 0,
+      filename: `CV-${name}.pdf`,
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2, useCORS: true },
+      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+    };
+    window.html2pdf().set(opt).from(element).save(`CV-${name}.pdf`).then(() => {
+      if (scaler) scaler.style.transform = prevTransform;
+      showToast(`CV-${name}.pdf downloaded!`);
     }).catch(err => {
       console.error(err);
+      if (scaler) scaler.style.transform = prevTransform;
       window.print();
     });
   } else {
+    if (scaler) scaler.style.transform = prevTransform;
     window.print();
   }
 }
 
 // 2. Word DOCX Export
 function exportDOCX() {
-  const paper = document.getElementById('cv-paper');
+  const paper = document.getElementById('cv-preview') || document.getElementById('cv-paper');
   if (!paper) return;
+
+  const rawName = state.currentCv?.personal?.fullName || '';
+  const name = rawName.trim() || 'User';
 
   const header = "<html xmlns:o='urn:schemas-microsoft-com:office:office' " +
     "xmlns:w='urn:schemas-microsoft-com:office:word' " +
@@ -1333,7 +1406,7 @@ function exportDOCX() {
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = `${(state.currentCv.personal?.fullName || 'CV').replace(/\s+/g, '_')}_Resume.doc`;
+  a.download = `CV-${name}.doc`;
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);

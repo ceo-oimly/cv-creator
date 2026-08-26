@@ -14,7 +14,9 @@
   <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
 
-  <!-- html2pdf.js CDN for PDF export -->
+  <!-- html2pdf.js, jsPDF & html2canvas for PDF export -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
 
@@ -261,7 +263,7 @@
         <div class="toolbar-left">
           <button class="btn btn-outline btn-sm" data-target-view="dashboard"><i data-lucide="arrow-left"></i>
             Dashboard</button>
-          <input type="text" id="doc-title" class="doc-title-input" value="Senior Software Engineer CV">
+          <input type="text" id="doc-title" class="doc-title-input" placeholder="Senior Software Engineer CV">
           <div id="save-status" class="save-status">
             <span class="status-dot"></span> Saved to browser
           </div>
@@ -509,7 +511,7 @@
           <div class="preview-scroll-wrapper">
             <div class="paper-scaler" id="paper-scaler">
               <!-- A4 PAPER CANVAS -->
-              <div id="cv-paper" class="cv-paper template-professional">
+              <div id="cv-preview" class="cv-paper template-professional">
                 <!-- Rendered live via JS -->
               </div>
             </div>
